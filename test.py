@@ -22,10 +22,32 @@ header = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWeb
 req = requests.get(url, headers = header).text
 
 soup = BeautifulSoup(req, 'html5lib')
-print(soup)
-print(type(soup))
+# print(soup)
+# print(type(soup))
 
-# card = soup.find_all('span', {'class' : 'a-size-medium a-color-base a-text-normal'})
+# Gettig The names of the accessories
+card = soup.find_all('span', {'class' : 'a-size-medium a-color-base a-text-normal'})
 
-# name = [comp.text for comp in card]
-# print(name)
+name = [comp.text for comp in card]
+print(name)
+
+#Getting the ratings of each accessory
+rating = soup.find_all('span', {'class' : 'a-icon-alt'})
+rating = [comp.text for comp in rating]
+print(rating)
+
+#Getting the total rating of each accessory
+total_rating = soup.find_all('span', {'class' : 'a-size-base s-underline-text'})
+total_rating = [comp.text for comp in total_rating]
+print(total_rating)
+
+
+#Getting the pounds side of the price
+price_whole = soup.find_all('span', {'class' : 'a-price-whole'})
+price_whole = [comp.text for comp in price_whole]
+print(price_whole)
+
+#Getting the pence side of the price
+price_dec = soup.find_all('span', {'class' : 'a-price-fraction'})
+price_dec = [comp.text for comp in price_dec]
+print(price_dec)
