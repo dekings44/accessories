@@ -51,3 +51,9 @@ print(price_whole)
 price_dec = soup.find_all('span', {'class' : 'a-price-fraction'})
 price_dec = [comp.text for comp in price_dec]
 print(price_dec)
+
+
+#Getting the image of the accessory
+# images = soup.find_all('img', {'class' : 's-image'})
+# images = [comp.src for comp in images]
+# print(images)
