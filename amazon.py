@@ -28,19 +28,32 @@ def get_url(search_term):
 url = get_url('smart tv')
 url1 = get_url('computer accessory')
 
-#print(url)
-print(url1)
+url = 'https://www.amazon.ca/Sony-WF-1000XM3-Industry-Canceling-Wireless/product-reviews/B07T81554H/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
+# Option 1
+r = requests.get('http://localhost:8050/render.html', params = {'url': url, 'wait' : 2})
+# Option 2
+# r = requests.get(url)
 
-soup = BeautifulSoup(driver.page_source, 'html.parser')
+# Parsing the HTML content
+soup = BeautifulSoup(r.text, 'html.parser')
 
-card = soup.find_all('div', {'class' : 'a-size-medium a-color-base a-text-normal'})
-print(card)
-# header = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
+# Getting desired data from our parsed soup
+reviews = soup.find_all('div', {'data-hook': 'review'})
 
-# link = 'https://www.amazon.co.uk/iPhone-Charger-Cable-Lightning-Compatible/dp/B08F2NDB39?ref_=Oct_d_oup_d_560800&pd_rd_w=TtYu9&content-id=amzn1.sym.cf168abf-8d77-4933-98b1-3151f5974581&pf_rd_p=cf168abf-8d77-4933-98b1-3151f5974581&pf_rd_r=29D7F0H9VJZ4XKR3P81Q&pd_rd_wg=AsMvu&pd_rd_r=dc5ed78e-9d5d-434b-955b-92b1aeaaa3b5&pd_rd_i=B08F2NDB39'
-# req = requests.get(link, headers = header).text
-# soup = BeautifulSoup(req, 'html5lib')
+# Initialize list
+data = []
 
-# content = soup.find_all('div', {'id' : 'productTitle'})
+# For every item in review, scrape the following and store as a list called review
+for item in reviews:
+    review = {
+    'product': soup.title.text.replace('Amazon.ca:Customer reviews: ', '').strip(), 
+    'title': item.find('a', {'data-hook': 'review-title'}).text.strip(),
+    'date': item.find('span', {'data-hook': 'review-date'}).text.strip(),
+    'rating': float(item.find('i', {'data-hook': 'review-star-rating'}).text.replace('out of 5 stars', '').strip()),
+    'text': item.find('span', {'data-hook': 'review-body'}).text.strip(),
+    }
+    data.append(review)  
 
-# print(content)
+# Save results to a dataframe, then export as CSV
+df = pd.DataFrame(data)
+df.to_csv(r'sony-headphones.csv', index=False)
