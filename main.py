@@ -31,16 +31,16 @@ for page in pages:
         name = store.find('span', {'class' : 'a-size-medium a-color-base a-text-normal'}).text
         acc_name.append(name)
         
-        acc_rating = store.find('span', {'class' : 'a-icon-alt'}).text
+        acc_rating = store.find('span', {'class' : 'a-icon-alt'})
         rating.append(acc_rating)
         
-        acc_total_rating = store.find('span', {'class' : 'a-size-base s-underline-text'}).text
+        acc_total_rating = store.find('span', {'class' : 'a-size-base s-underline-text'})
         total_rating.append(acc_total_rating)
         
-        acc_price_whole = store.find('span', {'class' : 'a-price-whole'}).text
+        acc_price_whole = store.find('span', {'class' : 'a-price-whole'})
         price_whole.append(acc_price_whole)
         
-        acc_price_dec = store.find('span', {'class' : 'a-price-fraction'}).text
+        acc_price_dec = store.find('span', {'class' : 'a-price-fraction'})
         price_dec.append(acc_price_dec)
         
         
@@ -48,3 +48,4 @@ for page in pages:
 acc_list = pd.DataFrame({ "Name": acc_name, "Rating" : rating, "Total Rating": total_rating, "Price Pounds": price_whole, "Price Pence" : price_dec})
 
 print(acc_list.head())
+print(len(acc_list))
