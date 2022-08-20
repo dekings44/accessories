@@ -49,3 +49,5 @@ acc_list = pd.DataFrame({ "Name": acc_name, "Rating" : rating, "Total Rating": t
 
 print(acc_list.head())
 print(len(acc_list))
+
+acc_list.to_csv('amazon.csv', index = None)
